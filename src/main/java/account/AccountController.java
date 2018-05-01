@@ -40,7 +40,7 @@ public class AccountController {
 		
 	    try (Connection connection = dataSource.getConnection()) {
 	        Statement stmt = connection.createStatement();
-	        stmt.executeUpdate("CREATE TABLE IF NOT EXISTS users (userName varchar(255), userMail varchar(255), password varchar(255))");	        
+	        stmt.executeUpdate("CREATE TABLE IF NOT EXISTS users (userName varchar(255) UNIQUE, userMail varchar(255) UNIQUE, password varchar(255))");	        
 	        int changedRows = stmt.executeUpdate("INSERT INTO users (userName, userMail, password) "
 	        				+ "VALUES ('"+account.getUserName()+"', '"+account.getUserMail()+"', '"+account.getPassword()+"')"
 	        				+ "ON CONFLICT (userName, userMail) DO NOTHING");
@@ -71,7 +71,7 @@ public class AccountController {
 		        
 				 ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE userMail='"+account.getUserMail()+"'");
 				 
-				 if(!rs.isBeforeFirst()) {
+				 if(!rs.isBeforeFirst() && rs.getRow() == 0) {
 					 if(rs.getString("password").equals(account.getPassword())) {
 						 Cookie cookie = new Cookie("login", "true");
 						 response.addCookie(cookie);
