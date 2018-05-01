@@ -40,9 +40,9 @@ public class AccountController {
 		
 	    try (Connection connection = dataSource.getConnection()) {
 	        Statement stmt = connection.createStatement();
-	        stmt.executeUpdate("CREATE TABLE IF NOT EXISTS users (userName varchar(255) UNIQUE, userMail varchar(255) UNIQUE, "
+	        stmt.executeUpdate("CREATE TABLE IF NOT EXISTS users(userName varchar(255) UNIQUE, userMail varchar(255) UNIQUE, "
 	        				+ "	password varchar(255), CONSTRAINT ux_name_mail UNIQUE (userName, userMail))");	        
-	        int changedRows = stmt.executeUpdate("INSERT INTO users (userName, userMail, password) "
+	        int changedRows = stmt.executeUpdate("INSERT INTO users(userName, userMail, password) "
 	        				+ "VALUES ('"+account.getUserName()+"', '"+account.getUserMail()+"', '"+account.getPassword()+"')"
 	        				+ "ON CONFLICT (userName, userMail) DO NOTHING");
 	        
@@ -65,8 +65,7 @@ public class AccountController {
 	public String login(@Valid @ModelAttribute("Account")Account account,
 			@CookieValue(value = "login", defaultValue = "false") String login, HttpServletResponse response) {
 		
-		if(login.equals("false")) {
-			
+		if(login.equals("false")) {			
 			try (Connection connection = dataSource.getConnection()) {
 				Statement stmt = connection.createStatement();
 		        
