@@ -69,7 +69,7 @@ public class AccountController {
 			try (Connection connection = dataSource.getConnection()) {
 				Statement stmt = connection.createStatement();
 		        
-				 ResultSet rs = stmt.executeQuery("SELECT "+account.getUserMail()+" FROM users");
+				 ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE userMail="+account.getUserMail());
 				 
 				 if(!rs.isBeforeFirst()) {
 					 if(rs.getString("password").equals(account.getPassword())) {
