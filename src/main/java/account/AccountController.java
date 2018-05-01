@@ -75,6 +75,7 @@ public class AccountController {
 					 rs.next();
 					 if(rs.getString("password").equals(account.getPassword())) {
 						 Cookie cookie = new Cookie("login", "true");
+						 cookie.setMaxAge(600);
 						 response.addCookie(cookie);
 					 } else {
 						 return "Invalid password";
