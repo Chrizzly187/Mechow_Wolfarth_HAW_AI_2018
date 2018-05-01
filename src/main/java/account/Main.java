@@ -57,17 +57,17 @@ public class Main {
   String db(Map<String, Object> model) {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
-      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS ticks (tick timestamp)");
-      stmt.executeUpdate("INSERT INTO ticks VALUES (now())");
       ResultSet rs = stmt.executeQuery("SELECT tick FROM ticks");
 
       ArrayList<String> output = new ArrayList<String>();
       while (rs.next()) {
-        output.add("Read from DB: " + rs.getTimestamp("tick"));
+        output.add("Read from DB: " + rs.getTimestamp("userName"));
+        output.add("Read from DB: " + rs.getTimestamp("userMail"));
+        output.add("Read from DB: " + rs.getTimestamp("password"));
       }
 
       model.put("records", output);
-      return "db";
+      return output.toString();
     } catch (Exception e) {
       model.put("message", e.getMessage());
       return "error";
