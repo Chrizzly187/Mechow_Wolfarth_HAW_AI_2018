@@ -41,16 +41,16 @@ public class AccountController {
 	        stmt.executeUpdate("CREATE TABLE IF NOT EXISTS users (userName varchar(255), userMail varchar(255), password varchar(255))");
 	        stmt.executeUpdate("INSERT INTO users (userName, userMail, password) "
 	        		+ "			VALUES ('"+account.getUserName()+"', '"+account.getUserMail()+"', '"+account.getPassword()+"')");
-	        ResultSet rs = stmt.executeQuery("SELECT userName FROM users");
+	        ResultSet rs = stmt.executeQuery("SELECT * FROM users");
 
 	        ArrayList<String> output = new ArrayList<String>();
 	        while (rs.next()) {
 	          output.add("Read from DB: " + rs.getString("userName"));
-//	          output.add("Read from DB: " + rs.getString("userMail"));
-//	          output.add("Read from DB: " + rs.getString("password"));
+	          output.add("Read from DB: " + rs.getString("userMail"));
+	          output.add("Read from DB: " + rs.getString("password"));
 	        }
 	        model.put("records", output);
-	        return "db";
+	        return model.toString();
 	      } catch (Exception e) {
 	        model.put("message", e.getMessage());
 	        StringWriter sw = new StringWriter();
