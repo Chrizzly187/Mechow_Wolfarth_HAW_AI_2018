@@ -71,7 +71,7 @@ public class AccountController {
 		        
 				 ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE userMail='"+account.getUserMail()+"'");
 				 
-				 if(!rs.isBeforeFirst() && rs.getRow() == 0) {
+				 if(!rs.isBeforeFirst()) {
 					 if(rs.getString("password").equals(account.getPassword())) {
 						 Cookie cookie = new Cookie("login", "true");
 						 response.addCookie(cookie);
