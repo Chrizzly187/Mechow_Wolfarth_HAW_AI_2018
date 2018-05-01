@@ -63,9 +63,10 @@ public class AccountController {
 	@PostMapping("/account/login")
 	@ResponseBody
 	public String login(@Valid @ModelAttribute("Account")Account account,
-			@CookieValue(value = "login", defaultValue = "false") String login, HttpServletResponse response) {
+			@CookieValue(value = "login", defaultValue = "false") String loginBool, 
+			@CookieValue(value = "user", defaultValue = "") String loginUser,  HttpServletResponse response) {
 		
-		if(login.equals("false")) {			
+		if(loginBool.equals("false") || !loginUser.equals(account.getUserMail())) {			
 			try (Connection connection = dataSource.getConnection()) {
 				Statement stmt = connection.createStatement();
 		        
@@ -74,9 +75,12 @@ public class AccountController {
 				 if(rs.isBeforeFirst()) {
 					 rs.next();
 					 if(rs.getString("password").equals(account.getPassword())) {
-						 Cookie cookie = new Cookie("login", "true");
-						 cookie.setMaxAge(600);
-						 response.addCookie(cookie);
+						 Cookie loginCookie = new Cookie("login", "true");
+						 Cookie userCookie = new Cookie("user", account.getUserMail());
+						 userCookie.setMaxAge(600);
+						 loginCookie.setMaxAge(600);
+						 response.addCookie(userCookie);
+						 response.addCookie(loginCookie);
 					 } else {
 						 return "Invalid password";
 					 }
