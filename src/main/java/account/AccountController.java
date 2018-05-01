@@ -88,7 +88,9 @@ public class AccountController {
 		        e.printStackTrace(new PrintWriter(sw));
 		        return sw.toString();
 			}
-		}		
+		} else {
+			return "already logged in";
+		}
 		return "login";		
 	}
 	
