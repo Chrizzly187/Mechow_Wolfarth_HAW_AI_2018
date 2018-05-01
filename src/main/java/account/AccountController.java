@@ -39,7 +39,8 @@ public class AccountController {
 	    try (Connection connection = dataSource.getConnection()) {
 	        Statement stmt = connection.createStatement();
 	        stmt.executeUpdate("CREATE TABLE IF NOT EXISTS users (userName varchar(255), userMail varchar(255), password varchar(255))");
-	        stmt.executeUpdate("INSERT INTO users (userName, userMail, password) VALUES ("+account.getUserName()+", "+account.getUserMail()+", "+account.getPassword()+")");
+	        stmt.executeUpdate("INSERT INTO users (userName, userMail, password) "
+	        		+ "			VALUES ('"+account.getUserName()+"', '"+account.getUserMail()+"', '"+account.getPassword()+"')");
 	        ResultSet rs = stmt.executeQuery("SELECT userName FROM users");
 
 	        ArrayList<String> output = new ArrayList<String>();
