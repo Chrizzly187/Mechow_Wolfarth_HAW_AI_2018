@@ -1,5 +1,7 @@
 package account;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -54,7 +56,9 @@ public class AccountController {
 	        return "db";
 	      } catch (Exception e) {
 	        model.put("message", e.getMessage());
-	        return e.getStackTrace().toString();
+	        StringWriter sw = new StringWriter();
+	        e.printStackTrace(new PrintWriter(sw));
+	        return sw.toString();
 	      }
     }
 	
