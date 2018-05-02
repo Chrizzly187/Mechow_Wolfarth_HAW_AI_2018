@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -60,6 +61,28 @@ public class AccountController {
 	      }
     }
 	
+	@GetMapping("/account")
+	public String getUser(@CookieValue(value = "login", defaultValue = "false") String loginBool, 
+						  @CookieValue(value = "user", defaultValue = "") String loginUser)	{
+		String userName = "Not logged in.";
+		if(loginBool.equals("true")) {
+			try (Connection connection = dataSource.getConnection()) {
+				Statement stmt = connection.createStatement();
+		        
+				 ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE userMail='"+loginUser+"'");
+				 if(rs.isBeforeFirst()) {
+					 rs.next();
+					 userName = rs.getString("userName");
+				 }				 
+			} catch (SQLException e) {
+		        StringWriter sw = new StringWriter();
+		        e.printStackTrace(new PrintWriter(sw));
+		        return sw.toString();
+			}
+		}		
+		return userName;
+	}
+	
 	@PostMapping("/account/login")
 	@ResponseBody
 	public String login(@Valid @ModelAttribute("Account")Account account,
@@ -100,6 +123,21 @@ public class AccountController {
 	}
 	
 	
+	@PostMapping("/account/logout")
+	@ResponseBody
+	public String logout(@Valid @ModelAttribute("Account")Account account,
+			@CookieValue(value = "login", defaultValue = "false") String loginBool, 
+			@CookieValue(value = "user", defaultValue = "") String loginUser,  HttpServletResponse response) {
+				
+		if(loginBool.equals("true") && loginUser.equals(account.getUserMail())) {
+			 Cookie loginCookie = new Cookie("login", "false");
+			 Cookie userCookie = new Cookie("user", "");
+			 response.addCookie(userCookie);
+			 response.addCookie(loginCookie);
+			 return "User "+account.getUserMail()+" logged out.";
+		}
+		return "Not logged in.";
+	}
 
   @Bean
   public DataSource dataSource() throws SQLException {
