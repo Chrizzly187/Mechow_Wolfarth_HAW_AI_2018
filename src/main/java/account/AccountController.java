@@ -16,6 +16,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -62,6 +63,7 @@ public class AccountController {
     }
 	
 	@GetMapping("/account")
+	@ResponseBody
 	public String getUser(@CookieValue(value = "login", defaultValue = "false") String loginBool, 
 						  @CookieValue(value = "user", defaultValue = "") String loginUser)	{
 		String userName = "Not logged in.";
