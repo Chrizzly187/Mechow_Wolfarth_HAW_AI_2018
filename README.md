@@ -1,3 +1,12 @@
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+HAW Guards App für HAW AI 2018 basierend auf dem java-getting-started repo von heroku.
+Originale readme folgt unten.
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+_____________________________________________________________________________________
+
 # java-getting-started
 
 [![CircleCI](https://circleci.com/gh/heroku/java-getting-started.svg?style=svg)](https://circleci.com/gh/heroku/java-getting-started)
