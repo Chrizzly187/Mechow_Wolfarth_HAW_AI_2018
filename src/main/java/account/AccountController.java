@@ -84,7 +84,7 @@ public class AccountController {
 		}		
 		return userName;
 	}
-	
+	//change to PUT?
 	@PostMapping("/account/login")
 	@ResponseBody
 	public String login(@Valid @ModelAttribute("Account")Account account,
